@@ -9,55 +9,6 @@ spec:
     repoURL: https://nats-io.github.io/k8s/helm/charts/
     chart: nats
     targetRevision: 1.2.6
-    helm:
-      values: |
-        nats:
-          image: nats:2.10.22-alpine
-          replicas: 3
-          
-          resources:
-            requests:
-              memory: 256Mi
-              cpu: 100m
-            limits:
-              memory: 512Mi
-              cpu: 200m
-              
-          container:
-            env:
-              - name: POD_NAME
-                valueFrom:
-                  fieldRef:
-                    fieldPath: metadata.name
-                    
-          config:
-            cluster:
-              enabled: true
-              replicas: 3
-              
-            monitoring:
-              enabled: true
-              port: 8222
-              
-            jetstream:
-              enabled: true
-              memStorage:
-                enabled: true
-                size: 2Gi
-              fileStorage:
-                enabled: true
-                size: 10Gi
-                storageClassName: standard
-                
-        auth:
-          enabled: false
-          
-        serviceAccount:
-          create: true
-          
-        podDisruptionBudget:
-          enabled: true
-          maxUnavailable: 1
           
   destination:
     server: https://kubernetes.default.svc
