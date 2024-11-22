@@ -17,7 +17,7 @@ spec:
       containers:
       - name: swagger-ui
         image: ghcr.io/impit-mpit/api-swagger-master:latest
-        enviroment:
+        env:
           - name: BASE_URL
             value: /swagger
         ports:
