@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: grafana
+    repoURL: https://grafana.github.io/helm-charts
+    targetRevision: 8.6.1
+    helm:
+      values: |
+        persistence:
+          enabled: true
+          size: 5Gi
+        
+        admin:
+          existingSecret: "grafana-admin-credentials"
+          passwordKey: admin-password
+            
+        service:
+          type: ClusterIP
+        
+        ingress:
+          enabled: true
+          hosts:
+            - grafana.nmost.site
+          
+              
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
